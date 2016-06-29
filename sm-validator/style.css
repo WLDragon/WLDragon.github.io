@@ -1,0 +1,29 @@
+h2 {
+    background-color: #090;
+    color: #fff;
+    padding: 8px;
+    margin: 5px;
+}
+p{
+    margin: 0;
+    color: #ccc;
+}
+div {
+    margin: 0 5px 10px;
+}
+input {
+    width: 250px;
+    height: 24px;
+    padding: 1px;
+    margin: 0;
+    font-size: 14px;
+}
+input:focus {
+    outline: #000 auto 0px;
+}
+button {
+    height: 30px;
+}
+.error {
+    background-color: #ffc;
+}

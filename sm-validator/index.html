@@ -2,11 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SMValidator复杂案例</title>
+    <title>SMValidator Demo</title>
     <link rel="stylesheet" href="style.css">
-    <script src="../SMValidator.js"></script>
+    <script src="./SMValidator.min.js"></script>
 </head>
 <body>
+    <h2>最简单的案例</h2>
+    <form id="simplestForm">
+        <div>
+            <input type="text" data-rule="required">
+        </div>
+        <div>
+            <button type="submit">不填数据直接提交</button>
+        </div>
+    </form>
     <h2>使用HTML</h2>
     <form id="form1">
         <div>
@@ -61,6 +70,13 @@
         <button style="margin-left: 5px;" type="submit">提交</button>
     </form>
     <script>
+        //最简单的案例
+        new SMValidator('#simplestForm', {
+            submit: function(valid, form) {
+                if(valid) form.submit();
+            }
+        });
+
         //偏好使用HTML
         new SMValidator('#form1');
 
