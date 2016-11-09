@@ -27,6 +27,11 @@
             <p id="message11" style="color:green">验证通过</p>
         </div>
         <div>
+            <p>要求内容为-100~100的数字，使用自定义消息容器，且容器不会消失</p>
+            <input id="manul1" type="text" data-rule="range(-100,100)|failHtml(*#message14)">
+            <p id="message14" style="color:red;width:200px;height:24px;border:1px solid #f00;margin-top:2px"></p>
+        </div>
+        <div>
             <p>要求长度大于5，使用自定义类名，不显示规则消息，父容器添加样式</p>
             <input type="text" data-rule="length(5,)|failCss(error,+error)|failHtml(!#message12)">
             <span id="message12" style="color:red">长度大于5，这里使用的是自定义文本，不使用规则消息</span>
@@ -71,7 +76,7 @@
             <textarea data-rule="/^[a-z0-9]*$/i/只能输入英文或数字|required" cols="30" rows="3"></textarea>
         </div>
         <div>
-            <p>测试&分割符，必填，长度大于3的数字，自定义容器</p>
+            <p>测试&amp;分割符，必填，长度大于3的数字，自定义容器</p>
             <input type="text" data-rule="required&length(3,)&number&failHtml(#message13)">
             <div style="color:#f00" id="message13"></div>
         </div>
@@ -110,21 +115,21 @@
             <input type="radio" name="radio1"  data-rule="required">
         </div>
         <div>
-            <p>测试server功能，先点击页面底部提交按钮查看效果</p>
+            <p>测试async功能，先点击页面底部提交按钮查看效果</p>
             <p>点击true或false按钮模拟收到服务器结果进行设值</p>
             <div>
                 <input name="field6" type="text" value="测试值">
-                <button type="button" onclick="server6(1)">true</button>
-                <button type="button" onclick="server6(2)">false</button>
+                <button type="button" onclick="async6(1)">true</button>
+                <button type="button" onclick="async6(2)">false</button>
             </div>
             <div>
                 <input name="field7" type="text">
-                <button type="button" onclick="server7(1)">true</button>
-                <button type="button" onclick="server7(2)">false</button>
+                <button type="button" onclick="async7(1)">true</button>
+                <button type="button" onclick="async7(2)">false</button>
             </div>
         </div>
         <div>
-            <p>测试&分割符，必填，长度大于3，只能数字</p>
+            <p>测试&amp;分割符，必填，长度大于3，只能数字</p>
             <input name="field8" type="text">
         </div>
         <div>
@@ -160,7 +165,7 @@
         //偏好使用JS
         new SMValidator('#form2', {
             focus: true,
-            server: '未经过服务器验证数据', //设置server和required的提示消息
+            async: '未经过服务器验证数据', //设置async和required的提示消息
             required: '这是必填项',
             failHtml: '<span style="color:#f6f"></span>',
             failStyle: {
@@ -189,13 +194,13 @@
                     manul: true
                 },
                 field6: {
-                    server: '还没通过服务器验证',
+                    async: '还没通过服务器验证',
                     failHtml: '<span style="color:red"></span>',
                     passHtml: '<span style="color:green">服务器验证通过</span>'
                 },
                 field7: {
                     required: true,
-                    server: true
+                    async: true
                 },
                 field8: {
                     rule: 'length(3,)&number',
@@ -226,11 +231,11 @@
             SMValidator.validate('#manul2');
         }
 
-        function server6(result) {
-            SMValidator.validate('[name="field6"]', {forceFlag: result, serverMessage: '服务器验证失败'});
+        function async6(result) {
+            SMValidator.validate('[name="field6"]', {forceFlag: result, asyncMessage: '服务器验证失败'});
         }
 
-        function server7(result) {
+        function async7(result) {
             SMValidator.validate('[name="field7"]', {forceFlag: result});
         }
 
