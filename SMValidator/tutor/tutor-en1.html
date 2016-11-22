@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SMValidator Tutor 1</title>
+    <link rel="stylesheet" href="monokai-sublime.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="highlight.pack.js"></script>
+    <script src="../SMValidator.min.js"></script>
+</head>
+
+<body>
+    <form>
+        <ol>
+            <li>
+                <p>long long ago, your boss ask you for validating a form, you write some lines below quickly</p>
+                <pre><code class="html">
+&lt;input data-rule="required" type="text"&gt;
+&lt;script&gt;
+    new SMValidator('form');
+&lt;/script&gt;
+                </code></pre>
+                <input data-rule="required" type="text">
+            </li>
+            <li>
+                <p>but your boss don't like the message, so you change it like this</p>
+                <pre><code class="html">
+&lt;input data-rule="required(please entry some thing)" type="text"&gt;
+                </code></pre>
+                <input data-rule="required(please entry some thing)" type="text">
+            </li>
+            <li>
+                <p>and then your boss require only letters</p>
+                <pre><code class="html">
+&lt;input data-rule="/^[A-Z]*$/only capital letter" type="text"&gt;
+                </code></pre>
+                <input data-rule="/^[A-Z]*$/only capital letter" type="text">
+                <pre><code class="html">
+&lt;!--case-insensitive--&gt;
+&lt;input data-rule="/^[A-Z]*$/i/please entry letters" type="text"&gt;
+                </code></pre>
+                <input data-rule="/^[A-Z]*$/i/please entry letters" type="text">
+            </li>
+            <li>
+                <p>after checked your boss ask you, "where's the required?". so you join the two rule with "|".</p>
+                <pre><code class="html">
+&lt;input data-rule="required(please entry some thing)|/^[A-Z]*$/only capital letter" type="text"&gt;
+                </code></pre>
+                <input data-rule="required(please entry some thing)|/^[A-Z]*$/only capital letter" type="text">
+            </li>
+            <li>
+                <p>your boss link pink, he wants input's background turn to pink when validte fail. and then you use "failCss" to deal with.</p>
+                <pre><code class="html">
+&lt;!--add className error to input--&gt;
+&lt;input data-rule="required|failCss(error)" type="text"&gt;
+                </code></pre>
+                <input data-rule="required|failCss(error)" type="text">
+                <pre><code class="html">
+&lt;!--not enough,your boss want the pink apply to input's parent--&gt;
+&lt;!--using "+" can apply style to input's parent, even apply to parent's parent by "++".--&gt;
+&lt;input data-rule="required|failCss(error,+error)" type="text"&gt;
+                </code></pre>
+                <input data-rule="required|failCss(error,+error)" type="text">
+            </li>
+            <li>
+                <p>the next day, your boss change his mind, he say pink background too ugly, he only want input's word be purple. now "failStyle" comes on stage.</p>
+                <pre><code class="html">
+&lt;!--"failStyle" only receive a param with JSON format, can't use "+" to affect input's parent--&gt;
+&lt;input data-rule="/^[A-Z]*$/only capital letter|failStyle({'color':'#c3f'})" type="text"&gt;
+                </code></pre>
+                <input data-rule="/^[A-Z]*$/only capital letter|failStyle({'color':'#c3f'})" type="text" placeholder="entry number to test">
+            </li>
+            <li>
+                <p>your boss thought for a moment, he felt that also should have the style after success. "passCss" or "passStyle".</p>
+                <pre><code class="html">
+&lt;input data-rule="/^[A-Z]*$/only capital letter|passCss(success)|passStyle({'color':'#090'})" type="text"&gt;
+                </code></pre>
+                <input data-rule="/^[A-Z]*$/only capital letter|passCss(success)|passStyle({'color':'#090'})" type="text">
+            </li>
+            <li>
+                <p>the fail message default in span.<br>but your boss didn't liked span, he want b. what to do? oh, here is "failHtml".</p>
+                <pre><code class="html">
+&lt;!--put fail message into b--&gt;
+&lt;input data-rule="required|failHtml(&lt;b style='color:#f00'&gt;&lt;/b&gt;)" type="text"&gt;
+                </code></pre>
+                <input data-rule="required|failHtml(<b style='color:#f00'></b>)" type="text">
+                <pre><code class="html">
+&lt;!--then your boss said the message is too wordy,just a &times; icon is good, you have to use "!" to ignore the message--&gt;
+&lt;input data-rule="required|failHtml(!&lt;b style='color:#f00'&gt;&times;&lt;/b&gt;)" type="text"&gt;
+                </code></pre>
+                <input data-rule="required|failHtml(!<b style='color:#f00'>&times;</b>)" type="text">
+                <pre><code class="html">
+&lt;!--Avenue to Jane, you thought it's perfect. but your boss want to see the message and the icon now. what?--&gt;
+&lt;!--"," can solve this issue, so easy.but you should pay attention to the writing order, 2333--&gt;
+&lt;input data-rule="required|failHtml(&lt;b style='color:#f00'&gt;&lt;/b&gt;,!&lt;b style='color:#f00'&gt;&times;&lt;/b&gt;)" type="text"&gt;
+                </code></pre>
+                <input data-rule="required|failHtml(<b style='color:#f00'></b>,!<b style='color:#f00'>&times;</b>)" type="text">
+                <pre><code class="html">
+&lt;!--just relax for a while, the boss's demand came.he want to add a dotted box outside input and the mesage outside the box.--&gt;
+&lt;!--would you want to kill your boss? don't worry, remember "failCss"? we can use "+" to effect input's parent.--&gt;
+&lt;input data-rule="required|failHtml(+&lt;b style='color:#f00'&gt;&lt;/b&gt;,!+&lt;b style='color:#f00'&gt;&times;&lt;/b&gt;)" type="text"&gt;
+                </code></pre>
+                <span class="ring">
+                    <input data-rule="required|failHtml(+<b style='color:#f00'></b>,!+<b style='color:#f00'>&times;</b>)" type="text">
+                </span>
+                <pre><code class="html">
+&lt;!--your boss changed his mind again, he require to put the dotted box on input and message inside the box--&gt;
+&lt;!--get the box  by css selector and add a "*" in front of it avoid the box disappear--&gt;
+&lt;!--when *!+ appear at the same time, must follow *!+++ such order--&gt;
+&lt;input data-rule="required|failHtml(*.boss-ring)" type="text"&gt;
+                </code></pre>
+                <div class="boss-ring"></div>
+                <input data-rule="required|failHtml(*.boss-ring)" type="text">
+            </li>
+            <li>
+                <p>
+                    on the third day, it's a newday, it's a newlife and it's a newdemand.<br>
+                    your boss need a form that can only input numbers and valide on blur.
+                </p>
+                <pre><code class="html">
+&lt;!--"number" is a built-in rule,in addition there are email/range/length/equal--&gt;
+&lt;!--"disinput" mean that no use oninput function--&gt;
+&lt;input data-rule="number|disinput" type="text"&gt;
+                </code></pre>
+                <input data-rule="number|disinput" type="text">
+            </li>
+            <li>
+                <p>now your boss want to recover the style when editing.</p>
+                <pre><code class="html">
+&lt;!--"focus" can make input recover original style on focus--&gt;
+&lt;input data-rule="number|disinput|focus" type="text"&gt;
+                </code></pre>
+                <input data-rule="number|disinput|focus" type="text">
+            </li>
+            <li>
+                <p>your boss war very happy, but he thought it is best to no validate on blur.</p>
+                <pre><code class="html">
+&lt;!--you are confused, but did it--&gt;
+&lt;input data-rule="number|disinput|disblur" type="text"&gt;
+                </code></pre>
+                <input data-rule="number|disinput|disblur" type="text">
+            </li>
+            <li>
+                <p>
+                    your boss was very angry and said you fool him, where's the number validation.<br>
+                    you had no choice but put a button beside input, validate on click.
+                </p>
+                <pre><code class="html">
+&lt;!--"manul" means validate by user, the equivalent of set "disinput" and "disblur"--&gt;
+&lt;!--SMValidator.validate(inputs); inputs can be css selector or array which includes input object--&gt;
+&lt;input id="manul" data-rule="number|manul" type="text"&gt;
+&lt;a href="javascript:SMValidator.validate('#manul');"&gt;check numbers&lt;/a&gt;
+                </code></pre>
+                <input id="manul" data-rule="number|manul" type="text">
+                <a href="javascript:SMValidator.validate('#manul');">check numbers</a>
+            </li>
+            <li>
+                <p>in the end, the super demand.
+                    <ul>
+                        <li>required and custom message</li>
+                        <li>only letters and case-insensitive </li>
+                        <li>word is purple, border is red and background is pink when fail</li>
+                        <li>word and border are green when success</li>
+                        <li>message is red and bold</li>
+                        <li>add &times; before message</li>
+                    </ul>
+                </p>
+                <pre><code class="html">
+&lt;!--so you hold all of above together--&gt;
+&lt;input data-rule="required(please entry some thing)|/^[A-Z]*$/i/please entry letters|failCss(error)|failStyle({'color':'#c3f','border':'1px solid #f00'})|passCss(success)|passStyle({'color':'#090'})|failHtml(&lt;b style='color:#f00'&gt;&lt;/b&gt;,!&lt;b style='color:#f00'&gt;&times;&lt;/b&gt;)" type="text"&gt;
+                </code></pre>
+                <input data-rule="required(please entry some thing)|/^[A-Z]*$/i/please entry letters|failCss(error)|failStyle({'color':'#c3f','border':'1px solid #f00'})|passCss(success)|passStyle({'color':'#090'})|failHtml(<b style='color:#f00'></b>,!<b style='color:#f00'>&times;</b>)" type="text">
+            </li>
+            <li>
+                <p>
+                    the fourth day, your boss give you four forms, one of number, one of email and two of letter, require in same style.<br>
+                    you saw the code you wrote yesterday, what the devil is a pile of all. hasten to open <b><a href="tutor2.html">tutor2</a></b></p>
+            </li>
+        </ol>
+    </form>
+
+    <script>
+        hljs.initHighlightingOnLoad();
+        new SMValidator('form');
+    </script>
+</body>
+
+</html>
