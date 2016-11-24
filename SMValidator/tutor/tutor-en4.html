@@ -15,25 +15,25 @@
     <form>
         <ol>
             <li>
-                <p>这次老板觉得一下子校验所有的表单太吓人了，他希望可以一步一步引导用户去纠正错误的表单</p>
+                <p>at this time, your boss want the forms will be validated one by one.</p>
                 <pre><code class="javascript">
-//short表示表单短路校验，在遇到校验失败的表单时退出
-//因为short控制的是整个form里所有input的检验行为，所以只能在config或SMValidator实例设置，data-rule设置无效
+//"short" means the rest of input will not be validated once a input is fail
+//"short" is invalid in data-rule
 new SMValidator('form', {
     short: true
 });
                 </code></pre>
-                <p>数字：<input type="text" name="test2"></p>
-                <p>邮件：<input type="text" name="test3"></p>
-                <p><button type="submit">提交表单</button></p>
+                <p>numbers:<input type="text" name="test2"></p>
+                <p>email&nbsp;:<input type="text" name="test3"></p>
+                <p><button type="submit">Submit</button></p>
             </li>
             <li>
-                <p>但对于单个input文本的校验，老板却不希望短路，他想要把所有校验失败的规则都显示出来</p>
+                <p>but for the single input, your boss want it can validate all rules and show him all the failure message.</p>
                 <pre><code class="javascript">
-//使用"&"分割，可以校验input的所有规则
-//返回的失败消息使用&lt;br&gt;分割，所以demo才设置failHtml为div来换行
-//required属于特性，不与其他规则一起校验
-//"&"与"|"不能混在一起使用
+//replace "|" with "&", it can validate all rule of input
+//the failure message is splited with "&lt;br&gt;"
+//required is special, it is not together with rules
+//"&" and "|" can't appear at the same time
 new SMValidator('form', {
     fields: {
         test6: {
@@ -45,28 +45,28 @@ new SMValidator('form', {
 });
                 </code></pre>
                 <pre><code class="html">
-&lt;!--使用html的形式则可以这样写--&gt;
+&lt;!--data-rule format--&gt;
 &lt;input type="text" data-rule="required&number&length(2,)&failHtml(&lt;div style='color:#f00'&gt;&lt;/div&gt;)"&gt;
                 </code></pre>
-                <input type="text" name="test6" placeholder="输入字母试试">
+                <input type="text" name="test6" placeholder="entry some letters">
             </li>
             <li>
-                <p>上面这些当然还不能满足老板的要求，他现在要求失败消息排在一行，用"；"分开且包在"【】"里</p>
+                <p>of course not enough, your boss need the messages in a row and split with ';' and contained in '[]'.</p>
                 <pre><code class="html">
 &lt;input type="text" name="test7"&gt;
 &lt;span id="failMsg" style="color:#f00"&gt;&lt;/span&gt;
 &lt;script&gt;
-    //fail是在校验失败时的回调函数，传回失败消息，使用"&"时传回的是数组，使用"|"时传回的是字符串
-    //pass是在校验成功时的回调函数
-    //fail和pass的调用对象是input，可以在回调函数中使用this指向input[name="test7"]
+    //"fail" is a callback function when validate fail, and pass back the message. the message is string or array, according to "|" or "&"
+    //"pass" is a callback function when validate pass
+    //input is the context of "fail" and "pass", so "this" is input in the callback
     new SMValidator('form', {
         fields: {
             test7: {
                 required: true,
-                failHtml: false, //禁用failHtml
+                failHtml: false, //disbale failHtml
                 rule: 'number&length(2,)',
                 fail: function(messages) {
-                    document.getElementById('failMsg').innerText = '【' + messages.toString().replace(',', '；') + '】';
+                    document.getElementById('failMsg').innerText = '[' + messages.toString().replace(',', ';') + ']';
                 },
                 pass: function() {
                     document.getElementById('failMsg').innerText = '';
@@ -76,36 +76,35 @@ new SMValidator('form', {
     });
 &lt;/script&gt;
                 </code></pre>
-                <input type="text" name="test7" placeholder="输入字母试试">
+                <input type="text" name="test7" placeholder="entry some letters">
                 <span id="failMsg" style="color:#f00"></span>
             </li>
             <li>
                 <p>
-                    至此，老板已经疲于向你提需求了，他只想知道SMValidator到底还有什么功能。(＾－＾)V<br>
-                    本教程到此为止还没提到的功能有支持bootstrap和semantic皮肤，以及checkbox/radio/select和textarea的校验。<br>
-                    有兴趣的同学可以查看源码里的Demo，如果你不需要内置样式和规则，可以使用pure版本。<br>
-                    （完）
+                    at the end of this tutor, What didn't mention about SMValidator?<br>
+                    there are other features that supporting bootstrap/semantic ui and validating checkbox/radio/select/textarea.<br>
+                    you can see the demo for detail. if you don't need the default style and rule, you can use the pure file.<br>
+                    (end)
                 </p>
             </li>
         </ol>
     </form>
-    <p class="ad">另外，如果你需要买国外Vultr的服务器的话，可以通过这个
-        <a href="http://www.vultr.com/?ref=7038557-3B" target="_blank">特别推广链接</a> 或
-        <a href="http://www.vultr.com/?ref=7038556" target="_blank">推广链接<a/>
-        来注册，这样你我都可以得到优惠</p>
+    <p class="ad">otherwise, this is my Vultr promo code
+        <a href="http://www.vultr.com/?ref=7038557-3B" target="_blank">special code</a> or
+        <a href="http://www.vultr.com/?ref=7038556" target="_blank">promo code<a/>
+    </p>
 
     <script>
         hljs.initHighlightingOnLoad();
 
         SMValidator.setLang({
-            number: '请输入数字',
-            email: '请输入正确的邮箱格式',
-            length_greater: '长度要求大于{0}',
+            number: 'please entry numbers',
+            email: 'please entry a corrected email'
         });
 
         new SMValidator('form', {
             short: true,
-            required: '请输入内容',
+            required: 'please entry some thing',
             failCss: 'error',
             failStyle: {color:'#c3f', border:'1px solid #f00'},
             passCss: 'success',
@@ -124,7 +123,7 @@ new SMValidator('form', {
                     failHtml: false,
                     rule: 'number&length(2,)',
                     fail: function(messages) {
-                        document.getElementById('failMsg').innerText = '【' + messages.toString().replace(',', '；') + '】';
+                        document.getElementById('failMsg').innerText = '[' + messages.toString().replace(',', ';') + ']';
                     },
                     pass: function() {
                         document.getElementById('failMsg').innerText = '';
